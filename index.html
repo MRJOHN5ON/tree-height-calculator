@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Given's Fire and Forestry Tree Height Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="assets/GIVENS copy.png" alt="Given's Fire and Forestry Logo">
+            </div>
+            <h1>Given's Fire and Forestry</h1>
+            <h2>Tree Height Calculator</h2>
+        </header>
+
+        <main>
+            <div class="calculator-card">
+                <div class="unit-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="unitToggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span id="unitLabel">Metric (meters)</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="baseDistance">Distance from Tree (<span class="unit-text">meters</span>):</label>
+                    <input type="number" id="baseDistance" step="0.01" min="0" required>
+                </div>
+
+                <div class="calculation-method">
+                    <h3>Choose Calculation Method:</h3>
+                    <div class="method-selector">
+                        <button id="angleMethod" class="method-btn active">Using Angle</button>
+                        <button id="hypotenuseMethod" class="method-btn">Using Line-of-Sight</button>
+                    </div>
+                </div>
+
+                <div id="angleInput" class="input-group">
+                    <label for="angle">Angle of Elevation (degrees):</label>
+                    <input type="number" id="angle" step="0.1" min="0" max="90">
+                </div>
+
+                <div id="hypotenuseInput" class="input-group hidden">
+                    <label for="hypotenuse">Line-of-Sight Distance (<span class="unit-text">meters</span>):</label>
+                    <input type="number" id="hypotenuse" step="0.01" min="0">
+                </div>
+
+                <button id="calculate" class="calculate-btn">Calculate Height</button>
+
+                <div id="result" class="result-area">
+                    <p>Tree height will appear here</p>
+                </div>
+
+                <div id="error" class="error-message"></div>
+            </div>
+
+            <div class="info-card">
+                <h3>How to Use</h3>
+                <ol>
+                    <li>Choose your preferred unit system using the toggle switch (Metric or Imperial)</li>
+                    <li>Measure the horizontal distance from the tree:
+                        <ul>
+                            <li>Stand on level ground</li>
+                            <li>Measure from your position to the center of the tree trunk</li>
+                            <li>Use a measuring tape or laser distance meter for accuracy</li>
+                        </ul>
+                    </li>
+                    <li>Choose your measurement method:
+                        <ul>
+                            <li><strong>Angle method (recommended):</strong>
+                                <ul>
+                                    <li>Use a clinometer or angle-measuring app</li>
+                                    <li>Hold the device at eye level</li>
+                                    <li>Aim at the top of the tree</li>
+                                    <li>Record the angle in degrees</li>
+                                </ul>
+                            </li>
+                            <li><strong>Line-of-sight method:</strong>
+                                <ul>
+                                    <li>Use a laser distance meter</li>
+                                    <li>Measure the direct distance to the tree top</li>
+                                    <li>Ensure steady aim for accuracy</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Enter your measurements and click Calculate</li>
+                </ol>
+
+                <div class="tips">
+                    <h4>Tips for Accurate Measurements</h4>
+                    <ul>
+                        <li>Choose a clear line of sight to the tree top</li>
+                        <li>Stand at least as far from the tree as it is tall</li>
+                        <li>Take multiple measurements and average them</li>
+                        <li>Avoid measuring in strong winds</li>
+                        <li>Account for sloped ground when measuring base distance</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

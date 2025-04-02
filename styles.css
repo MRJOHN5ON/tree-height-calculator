@@ -1,0 +1,313 @@
+:root {
+    --primary-color: #2C5530;        /* Dark forest green */
+    --secondary-color: #4A7E3D;      /* Medium forest green */
+    --background-color: #F5F7F2;     /* Light sage */
+    --card-background: #ffffff;
+    --error-color: #B44C34;          /* Rustic red */
+    --success-color: #3C7A3B;        /* Pine green */
+    --accent-color: #8B4513;         /* Saddle brown */
+    --text-muted: #5C745E;          /* Muted forest green */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: var(--secondary-color);
+    font-size: 1.8rem;
+}
+
+.calculator-card, .info-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(44, 85, 48, 0.1);
+    border: 1px solid rgba(74, 126, 61, 0.1);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 3px rgba(74, 126, 61, 0.3);
+}
+
+.calculation-method {
+    margin-bottom: 1.5rem;
+}
+
+.method-selector {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.method-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid var(--secondary-color);
+    background: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: var(--secondary-color);
+}
+
+.method-btn.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.method-btn:hover:not(.active) {
+    background-color: rgba(74, 126, 61, 0.1);
+}
+
+.calculate-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.calculate-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.result-area {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #F0F7E6;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid rgba(74, 126, 61, 0.2);
+}
+
+.error-message {
+    color: var(--error-color);
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.hidden {
+    display: none;
+}
+
+.info-card ol {
+    padding-left: 1.5rem;
+}
+
+.info-card ul {
+    padding-left: 2rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .calculator-card, .info-card {
+        padding: 1.5rem;
+    }
+
+    .method-selector {
+        flex-direction: column;
+    }
+
+    .method-btn {
+        width: 100%;
+    }
+}
+
+/* Unit Toggle Switch */
+.unit-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text-muted);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--secondary-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--secondary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Tips Section */
+.tips {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #F0F7E6;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.tips h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.tips ul {
+    margin: 10px 0 0 0;
+    padding-left: 20px;
+}
+
+.tips li {
+    margin: 8px 0;
+    color: var(--text-muted);
+}
+
+/* Nested Lists */
+.info-card ul ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.info-card li strong {
+    color: var(--primary-color);
+}
+
+/* Unit Text */
+.unit-text {
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+#unitLabel {
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Logo Styles */
+.logo {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(44, 85, 48, 0.1);
+}
+
+/* Responsive Logo */
+@media (max-width: 600px) {
+    .logo img {
+        max-width: 200px;
+    }
+}

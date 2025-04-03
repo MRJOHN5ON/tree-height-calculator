@@ -2,107 +2,366 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Given's Fire and Forestry Tree Height Calculator</title>
+    <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    </style>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">
-                <img src="assets/GIVENS copy.png" alt="Given's Fire and Forestry Logo">
+                <a href="https://www.givensfireandforestry.com/" target="_blank">
+                    <img src="assets/GIVENS copy.png" alt="Given's Fire and Forestry Logo">
+                </a>
             </div>
             <h1>Given's Fire and Forestry</h1>
-            <h2>Tree Height Calculator</h2>
+            <h2>Easy Tree Height Calculator</h2>
+            <p class="tagline">Simple, accurate measurements for everyone</p>
         </header>
 
         <main>
             <div class="calculator-card">
-                <div class="unit-toggle">
-                    <label class="switch">
-                        <input type="checkbox" id="unitToggle">
-                        <span class="slider round"></span>
-                    </label>
-                    <span id="unitLabel">Metric (meters)</span>
-                </div>
-
-                <div class="input-group">
-                    <label for="baseDistance">Distance from Tree (<span class="unit-text">meters</span>):</label>
-                    <input type="number" id="baseDistance" step="0.01" min="0" required>
-                </div>
-
-                <div class="calculation-method">
-                    <h3>Choose Calculation Method:</h3>
-                    <div class="method-selector">
-                        <button id="angleMethod" class="method-btn active">Using Angle</button>
-                        <button id="hypotenuseMethod" class="method-btn">Using Line-of-Sight</button>
+                <div class="unit-selector">
+                    <div class="unit-group">
+                        <label for="unitSystem">Unit System:</label>
+                        <select id="unitSystem">
+                            <option value="metric">Metric</option>
+                            <option value="imperial">Imperial</option>
+                        </select>
+                    </div>
+                    
+                    <div class="unit-group">
+                        <label for="unitType">Unit Type:</label>
+                        <select id="unitType">
+                            <optgroup label="Metric">
+                                <option value="meters">Meters</option>
+                                <option value="centimeters">Centimeters</option>
+                                <option value="kilometers">Kilometers</option>
+                            </optgroup>
+                            <optgroup label="Imperial">
+                                <option value="feet">Feet</option>
+                                <option value="inches">Inches</option>
+                                <option value="yards">Yards</option>
+                                <option value="miles">Miles</option>
+                            </optgroup>
+                        </select>
                     </div>
                 </div>
 
-                <div id="angleInput" class="input-group">
-                    <label for="angle">Angle of Elevation (degrees):</label>
-                    <input type="number" id="angle" step="0.1" min="0" max="90">
+                <div class="calculation-method">
+                    <h3>Choose Measurement Method:</h3>
+                    <div class="method-tabs">
+                        <button id="standardTab" class="tab-btn active">Standard</button>
+                        <button id="advancedTab" class="tab-btn">Advanced</button>
+                    </div>
+                    
+                    <div id="standardMethods" class="method-selector">
+                        <button id="angleMethod" class="method-btn active">Angle Method</button>
+                        <button id="hypotenuseMethod" class="method-btn">Line-of-Sight</button>
+                        <button id="shadowMethod" class="method-btn">Shadow Method</button>
+                    </div>
+                    
+                    <div id="advancedMethods" class="method-selector hidden">
+                        <button id="clinometerMethod" class="method-btn">Clinometer</button>
+                        <button id="triangulationMethod" class="method-btn">Triangulation</button>
+                    </div>
                 </div>
 
+                <div id="methodDescription" class="method-description">
+                    <p>Select a measurement method to see instructions</p>
+                </div>
+
+                <!-- Angle Method Inputs -->
+                <div id="angleInput" class="input-group hidden">
+                    <div class="input-with-help">
+                        <label for="baseDistance">Distance from Tree (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Measure from where you're standing to the base of the tree trunk</span>
+                        </div>
+                    </div>
+                    <input type="number" id="baseDistance" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="angle">Angle of Elevation (degrees):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">The upward angle from eye level to the top of the tree</span>
+                        </div>
+                    </div>
+                    <input type="number" id="angle" step="0.1" min="0" max="90">
+                    
+                    <div class="input-with-help">
+                        <label for="eyeHeight">Your Eye Height (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Distance from ground to your eyes (usually about 0.1m less than your full height)</span>
+                        </div>
+                    </div>
+                    <input type="number" id="eyeHeight" step="0.01" min="0" placeholder="Optional">
+                </div>
+
+                <!-- Hypotenuse Method Inputs -->
                 <div id="hypotenuseInput" class="input-group hidden">
-                    <label for="hypotenuse">Line-of-Sight Distance (<span class="unit-text">meters</span>):</label>
+                    <div class="input-with-help">
+                        <label for="baseDistance2">Distance from Tree (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Measure from where you're standing to the base of the tree trunk</span>
+                        </div>
+                    </div>
+                    <input type="number" id="baseDistance2" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="hypotenuse">Line-of-Sight Distance (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Direct diagonal distance from your position to the top of the tree</span>
+                        </div>
+                    </div>
                     <input type="number" id="hypotenuse" step="0.01" min="0">
                 </div>
 
-                <button id="calculate" class="calculate-btn">Calculate Height</button>
+                <!-- Shadow Method Inputs -->
+                <div id="shadowInput" class="input-group hidden">
+                    <div class="input-with-help">
+                        <label for="yourHeight">Your Height (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Your full standing height</span>
+                        </div>
+                    </div>
+                    <input type="number" id="yourHeight" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="yourShadow">Your Shadow Length (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Measure from your feet to the tip of your shadow</span>
+                        </div>
+                    </div>
+                    <input type="number" id="yourShadow" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="treeShadow">Tree's Shadow Length (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Measure from tree base to the tip of tree's shadow</span>
+                        </div>
+                    </div>
+                    <input type="number" id="treeShadow" step="0.01" min="0" required>
+                </div>
+                
+                <!-- Clinometer Method Inputs -->
+                <div id="clinometerInput" class="input-group hidden">
+                    <div class="input-with-help">
+                        <label for="clinoDistance">Distance from Tree (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Horizontal distance from where you're standing to the tree</span>
+                        </div>
+                    </div>
+                    <input type="number" id="clinoDistance" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="clinoAngle">Clinometer Angle (degrees):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Angle reading from the clinometer when sighting the tree top</span>
+                        </div>
+                    </div>
+                    <input type="number" id="clinoAngle" step="0.1" min="0" max="90" required>
+                    
+                    <div class="input-with-help">
+                        <label for="clinoEyeHeight">Your Eye Height (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Distance from ground to your eyes</span>
+                        </div>
+                    </div>
+                    <input type="number" id="clinoEyeHeight" step="0.01" min="0" required>
+                </div>
+                
+                <!-- Triangulation Method Inputs -->
+                <div id="triangulationInput" class="input-group hidden">
+                    <div class="input-with-help">
+                        <label for="distance1">First Distance (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Distance from first position to the tree</span>
+                        </div>
+                    </div>
+                    <input type="number" id="distance1" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="angle1">First Angle (degrees):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Angle to treetop from first position</span>
+                        </div>
+                    </div>
+                    <input type="number" id="angle1" step="0.1" min="0" max="90" required>
+                    
+                    <div class="input-with-help">
+                        <label for="distance2">Second Distance (<span class="unit-text">meters</span>):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Distance from second position to the tree</span>
+                        </div>
+                    </div>
+                    <input type="number" id="distance2" step="0.01" min="0" required>
+                    
+                    <div class="input-with-help">
+                        <label for="angle2">Second Angle (degrees):</label>
+                        <div class="tooltip"><i class="fas fa-question-circle"></i>
+                            <span class="tooltiptext">Angle to treetop from second position</span>
+                        </div>
+                    </div>
+                    <input type="number" id="angle2" step="0.1" min="0" max="90" required>
+                </div>
+
+                <button id="calculate" class="calculate-btn">Calculate Tree Height</button>
 
                 <div id="result" class="result-area">
                     <p>Tree height will appear here</p>
                 </div>
 
                 <div id="error" class="error-message"></div>
+                
+                <div id="saveResults" class="save-results hidden">
+                    <h4>Save Your Results</h4>
+                    <div class="save-options">
+                        <button id="printResults" class="save-btn"><i class="fas fa-print"></i> Print</button>
+                        <button id="downloadPDF" class="save-btn"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                        <button id="emailResults" class="save-btn"><i class="fas fa-envelope"></i> Email</button>
+                    </div>
+                </div>
             </div>
 
             <div class="info-card">
-                <h3>How to Use</h3>
-                <ol>
-                    <li>Choose your preferred unit system using the toggle switch (Metric or Imperial)</li>
-                    <li>Measure the horizontal distance from the tree:
+                <h3>How to Measure Tree Height - Complete Guide</h3>
+                
+                <div class="method-info-tabs">
+                    <button class="method-info-tab active" data-method="overview">Overview</button>
+                    <button class="method-info-tab" data-method="standard">Standard</button>
+                    <button class="method-info-tab" data-method="advanced">Advanced</button>
+                </div>
+                
+                <div id="overviewInfo" class="method-info">
+                    <p class="intro-text">Welcome to our tree height calculator! This tool helps you measure tree heights without climbing or using expensive equipment. Here's how to get started:</p>
+                    
+                    <ol class="main-steps">
+                        <li>Choose your preferred unit system (Metric or Imperial)</li>
+                        <li>Select a measurement method based on your experience level and available tools</li>
+                        <li>Follow the step-by-step instructions for your chosen method</li>
+                        <li>Enter your measurements in the calculator</li>
+                        <li>Click "Calculate" to get your tree height</li>
+                    </ol>
+                    
+                    <div class="method-selection-help">
+                        <h4>Which Method Should I Choose?</h4>
                         <ul>
-                            <li>Stand on level ground</li>
-                            <li>Measure from your position to the center of the tree trunk</li>
-                            <li>Use a measuring tape or laser distance meter for accuracy</li>
+                            <li><strong>Standard Methods</strong>: Simple methods with minimal equipment like shadows, angles, or direct measurements</li>
+                            <li><strong>Advanced Methods</strong>: More precise measurements with specialized tools like clinometers or triangulation</li>
                         </ul>
-                    </li>
-                    <li>Choose your measurement method:
-                        <ul>
-                            <li><strong>Angle method (recommended):</strong>
-                                <ul>
-                                    <li>Use a clinometer or angle-measuring app</li>
-                                    <li>Hold the device at eye level</li>
-                                    <li>Aim at the top of the tree</li>
-                                    <li>Record the angle in degrees</li>
-                                </ul>
-                            </li>
-                            <li><strong>Line-of-sight method:</strong>
-                                <ul>
-                                    <li>Use a laser distance meter</li>
-                                    <li>Measure the direct distance to the tree top</li>
-                                    <li>Ensure steady aim for accuracy</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>Enter your measurements and click Calculate</li>
-                </ol>
+                    </div>
+                </div>
+                
+                <div id="standardInfo" class="method-info hidden">
+                    <h4>Standard Methods (Minimal Equipment)</h4>
+                    
+                    <div class="method-details">
+                        <h5>Shadow Method</h5>
+                        <p>Uses the relationship between your shadow and the tree's shadow.</p>
+                        <ol>
+                            <li>Measure your own height</li>
+                            <li>Measure the length of your shadow on the ground</li>
+                            <li>Measure the length of the tree's shadow</li>
+                            <li>Works best on sunny days on level ground</li>
+                        </ol>
+                        <p class="method-tip"><strong>Tip:</strong> Measure shadows when they're clearly visible, typically early morning or late afternoon.</p>
+                    </div>
+                    
+                    <div class="method-details">
+                        <h5>Angle Method</h5>
+                        <p>Uses basic trigonometry to calculate height.</p>
+                        <ol>
+                            <li>Measure the horizontal distance to the tree</li>
+                            <li>Use a phone app to measure the angle to the tree top</li>
+                            <li>Measure or estimate your eye height from the ground</li>
+                        </ol>
+                        <p class="method-tip"><strong>Tip:</strong> Stand at least as far from the tree as you think it is tall.</p>
+                    </div>
+                    
+                    <div class="method-details">
+                        <h5>Line-of-Sight Method</h5>
+                        <p>Uses the Pythagorean theorem to calculate height.</p>
+                        <ol>
+                            <li>Measure the horizontal distance to the tree</li>
+                            <li>Measure the direct (diagonal) distance to the tree top</li>
+                            <li>The calculator finds the height using these measurements</li>
+                        </ol>
+                        <p class="method-tip"><strong>Tip:</strong> A laser distance meter works well for the diagonal measurement.</p>
+                    </div>
+                </div>
+                
+                <div id="advancedInfo" class="method-info hidden">
+                    <h4>Advanced Methods (Specialized Equipment)</h4>
+                    
+                    <div class="method-details">
+                        <h5>Clinometer Method</h5>
+                        <p>Uses a dedicated angle-measuring device for precision.</p>
+                        <ol>
+                            <li>Measure the distance to the tree</li>
+                            <li>Use a clinometer to measure the angle to the treetop</li>
+                            <li>Record your eye height from the ground</li>
+                        </ol>
+                        <p class="method-tip"><strong>Tip:</strong> Take multiple readings and average them for best results.</p>
+                    </div>
+                    
+                    <div class="method-details">
+                        <h5>Triangulation Method</h5>
+                        <p>Uses measurements from two different positions for accuracy.</p>
+                        <ol>
+                            <li>Take angle measurement to the tree top from position 1</li>
+                            <li>Measure distance from position 1 to the tree</li>
+                            <li>Move to a different position (ideally at a right angle)</li>
+                            <li>Take second angle measurement to the tree top</li>
+                            <li>Measure distance from position 2 to the tree</li>
+                        </ol>
+                        <p class="method-tip"><strong>Tip:</strong> Greater distance between positions 1 and 2 increases accuracy.</p>
+                    </div>
+                </div>
 
                 <div class="tips">
                     <h4>Tips for Accurate Measurements</h4>
                     <ul>
-                        <li>Choose a clear line of sight to the tree top</li>
-                        <li>Stand at least as far from the tree as it is tall</li>
-                        <li>Take multiple measurements and average them</li>
-                        <li>Avoid measuring in strong winds</li>
-                        <li>Account for sloped ground when measuring base distance</li>
+                        <li><i class="fas fa-check-circle"></i> Choose a clear line of sight to the tree top</li>
+                        <li><i class="fas fa-check-circle"></i> Stand on level ground whenever possible</li>
+                        <li><i class="fas fa-check-circle"></i> Take multiple measurements and average them</li>
+                        <li><i class="fas fa-check-circle"></i> Avoid measuring in strong winds (trees sway)</li>
+                        <li><i class="fas fa-check-circle"></i> For shadow method, measure when shadows are clearly visible</li>
+                        <li><i class="fas fa-check-circle"></i> Identify the true top of the tree (not a branch below the top)</li>
+                        <li><i class="fas fa-check-circle"></i> For sloped ground, measure horizontal distance, not along the slope</li>
                     </ul>
+                </div>
+                
+                <div class="common-questions">
+                    <h4>Common Questions</h4>
+                    <div class="question">
+                        <h5>Why measure tree height?</h5>
+                        <p>Tree height measurements help with forestry management, estimating timber volume, assessing tree health, planning for tree removal, and monitoring growth rates.</p>
+                    </div>
+                    <div class="question">
+                        <h5>Which method is most accurate?</h5>
+                        <p>Clinometers and triangulation provide the most accurate results. For everyday use, the angle method is a good balance of accuracy and convenience.</p>
+                    </div>
+                    <div class="question">
+                        <h5>What if the tree is on a slope?</h5>
+                        <p>Always measure the horizontal distance to the tree, not the distance along the slope. For very steep terrain, the triangulation method often works best.</p>
+                    </div>
                 </div>
             </div>
         </main>
+        
+        <footer>
+            <p>© 2023 Given's Fire and Forestry. All rights reserved.</p>
+            <p class="disclaimer">This calculator provides estimates only. For critical applications, consult with a professional arborist or forester.</p>
+            <p class="website-link"><a href="https://www.givensfireandforestry.com/" target="_blank">Visit our website: www.givensfireandforestry.com</a></p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>

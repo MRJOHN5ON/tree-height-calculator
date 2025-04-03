@@ -1,0 +1,56 @@
+/* Add these rules at the top of your styles.css file */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Then add this to your existing body style */
+body {
+    width: 100%;
+    position: relative;
+    margin: 0;
+}
+
+/* Check the tooltip positioning */
+.tooltip .tooltiptext {
+    width: 220px;
+    max-width: calc(100vw - 40px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    margin-left: 0;
+}
+
+.tooltip:hover .tooltiptext {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Make mobile adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 0;
+    }
+    
+    .calculator-card, .info-card {
+        padding: 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .tooltip {
+        position: static;
+    }
+    
+    .tooltip .tooltiptext {
+        width: auto;
+        position: fixed;
+        left: 20px;
+        right: 20px;
+        transform: none;
+        top: 50%;
+        margin-top: -60px;
+    }
+}
